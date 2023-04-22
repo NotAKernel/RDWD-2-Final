@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>DCY - Contact Me</title>
+		<link rel="stylesheet" href="CSS/main.css">
+		<link href="https://fonts.googleapis.com/css2?family=Palanquin&family=Tilt+Warp&display=swap" 
+		rel="stylesheet">
+		<link rel="stylesheet" 
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link href="https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap" rel="stylesheet">
+		<script>
+			let captchaDone = 0;
+			function myFunction() {
+				var x = document.getElementById("topNav");
+				if (x.className === "topNav") {
+					x.className += " responsive";
+				} else {
+					x.className = "topNav";
+				}
+			}
+			
+			function validateForm() {
+				
+				let clear = ["name", "comp", "web", "email1", "email2", "query"];
+				
+				for (let i = 0; i < clear.length; i++) {
+					document.getElementById(clear[i] + "Span").innerHTML = "";
+				}
+				
+				let name = document.forms["myForm"]["name"].value;
+				let comp = document.forms["myForm"]["company_name"].value;
+				let web = document.forms["myForm"]["website"].value;
+				let email1 = document.forms["myForm"]["email1"].value;
+				let email2 = document.forms["myForm"]["email2"].value;
+				let query = document.forms["myForm"]["query"].value;
+				
+				if (name == "") {
+					document.getElementById("nameSpan").innerHTML = "*Required Field!";
+					return false;
+				}
+				else if (email1 == "") {
+					document.getElementById("email1Span").innerHTML = "*Required Field!";
+					return false;
+				}
+				else if (email2 == "" ) {
+					document.getElementById("email2Span").innerHTML = "*Required Field!";
+					return false;
+				}
+				else if (query == "") {
+					document.getElementById("querySpan").innerHTML = "*Required Field!";
+					return false;
+				}
+				
+				if (!/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/=]*)/.test(web)
+				&& web != "") {
+					document.getElementById("webSpan").innerHTML = "*Invalid website URL";
+					return false;
+				}
+				
+				if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email1)) {
+					document.getElementById("email1Span").innerHTML = "*Invalid email address!";
+					return false;
+				}
+				
+				if (email1 != email2) {
+					document.getElementById("email2Span").innerHTML = "*Email must be the same!";
+					return false;
+				}
+				
+				if (captchaDone == 0) {
+					return false;
+				}
+			}
+			
+		</script>
+	</head>
+	
+	<body>
+		<div class="containerHead">
+			<header class="headerDiv">
+				<div class="topBar">
+				<a href="index.html" id="logoLink"><img id="topLogo" src="Images/logo.png" alt="Limerick logo"></a>
+				<nav id="topNav" class="topNav">
+					<ul>
+						<li><a href="index.html" class="home">Home</a></li>
+						<li><a href="hobbies.html">Hobbies</a></li>
+						<li><a href="projects.html">Projects</a></li>
+						<li><a href="progInfo.html">Modules</a></li>
+						<li><a href="education.html">Education</a></li>
+						<li><a href="workExp.html">Work Experience</a></li>
+						<li><a href="contact.html" id="currentPage">Contact Me</a></li>
+						<li><a href="javascript:void(0);" class="icon" onclick="myFunction()">
+						<i class="fa fa-bars"></i></a></li>
+					</ul>
+				</nav>
+				</div>
+			</header>
+		</div>
+		
+		<div class="mainContainer">
+			<h1 class="titleH1">Contact Me</h1>
+			<div class="contactCard card card1">		
+				<form name="myForm" onsubmit="return validateForm()"
+				action="http://litstudentprojects.net/rdwd-contact-response.php" method="post">
+					
+						<fieldset id="textfields"> 
+						<legend>Contact Information</legend>
+						<p>
+							<label for="name">Name*</label>
+							<input type="text" name="name" size="25" id="name" class="input"
+							placeholder="Name*">
+							<span id="nameSpan"></span>
+						</p>	
+						
+						<p>
+							<label for="company_name">Company Name</label>
+							<input type="text" name="company_name" size="25" id="company_name" class="input"
+							placeholder="Company Name">
+							<span id="compSpan"></span>
+						</p>
+						
+						<p>
+							<label for="website">Company Website (URL)</label>
+							<input name="website" size="25" id="website" class="input"
+							placeholder="Company Website (URL)">
+							<span id="webSpan"></span>
+						</p>
+						
+						<p>
+							<label for="email1">Email*</label>
+							<input name="email1" size="25" id="email1" class="input"
+							placeholder="Email*">
+							<span id="email1Span"></span>
+						</p>
+						
+						<p>
+							<label for="email2">Retype Email*</label>
+							<input type="tel" name="email2" size="25" id="email2" class="input"
+							placeholder="Retype Email*">
+							<span id="email2Span"></span>
+						</p>				
+						
+						<p>
+							<label for="query">Query/Comment*</label>
+							<textarea name="query" cols="26" rows="5" id="query" class="input"
+							placeholder="Query/Comment*"></textarea>
+							<span id="querySpan"></span>
+						</p>
+						</fieldset>		
+
+						<fieldset class="captcha" onload="generate()">
+							<legend>CAPTCHA Verification</legend>
+								<div class="center">
+									<div id="captchaBackground">
+										<canvas id="captcha">captcha text</canvas>
+										<input id="textBox" type="text" name="text">
+										<div id="buttons">
+											<button id="refreshButton" type="submit">Refresh</button>
+										</div>
+										<span id="output"></span>
+									</div>
+								</div>
+						</fieldset>
+					<input type="submit" id="submit">
+					<a href="index.html" id="cancel">Cancel</a>
+				</form>
+			</div>
+		</div>
+		
+		<div class="footer" id="contactFooter">
+			<p><img src="Images/copyright.png" alt="Copyright symbol"> Daniel Christian Yermak</p>
+		</div>
+<script>
+// document.querySelector() is used to select an element from the document using its ID
+let captchaText = document.querySelector('#captcha');
+var ctx = captchaText.getContext("2d");
+ctx.font = "30px Roboto";
+ctx.fillStyle = "#08e5ff";
+
+
+let userText = document.querySelector('#textBox');
+let submitButton = document.querySelector('#submit');
+let output = document.querySelector('#output');
+let refreshButton = document.querySelector('#refreshButton');
+
+
+// alphaNums contains the characters with which you want to create the CAPTCHA
+let alphaNums = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+let emptyArr = [];
+
+// This loop generates a random string of 7 characters using alphaNums
+// Further this string is displayed as a CAPTCHA
+for (let i = 1; i <= 7; i++) {
+emptyArr.push(alphaNums[Math.floor(Math.random() * alphaNums.length)]);
+}
+var c = emptyArr.join('');
+ctx.fillText(emptyArr.join(''),captchaText.width/4, captchaText.height/2);
+
+
+// This event listener is stimulated whenever the user press the "Enter" button
+// "Correct!" or "Incorrect, please try again" message is
+// displayed after validating the input text with CAPTCHA
+userText.addEventListener('keyup', function(e) {
+// Key Code Value of "Enter" Button is 13
+if (e.keyCode === 13) {
+if (userText.value === c) {
+output.classList.add("correctCaptcha");
+output.innerHTML = "Correct!";
+} else {
+output.classList.add("incorrectCaptcha");
+output.innerHTML = "Incorrect, please try again";
+}
+}
+});
+
+// This event listener is stimulated whenever the user clicks the "Submit" button
+// "Correct!" or "Incorrect, please try again" message is
+// displayed after validating the input text with CAPTCHA
+submitButton.addEventListener('click', function() {
+if (userText.value === c) {
+output.classList.add("correctCaptcha");
+output.innerHTML = "Correct!";
+captchaDone = 1;
+} else {
+output.classList.add("incorrectCaptcha");
+output.innerHTML = "Incorrect, please try again";
+}
+});
+
+// This event listener is stimulated whenever the user press the "Refresh" button
+// A new random CAPTCHA is generated and displayed after the user clicks the "Refresh" button
+refreshButton.addEventListener('click', function() {
+userText.value = "";
+let refreshArr = [];
+for (let j = 1; j <= 7; j++) {
+refreshArr.push(alphaNums[Math.floor(Math.random() * alphaNums.length)]);
+}
+ctx.clearRect(0, 0, captchaText.width, captchaText.height);
+c = refreshArr.join('');
+ctx.fillText(refreshArr.join(''),captchaText.width/4, captchaText.height/2);
+output.innerHTML = "";
+});
+</script>
+	</body>
+</html>
